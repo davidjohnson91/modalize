@@ -1,6 +1,6 @@
 (function($){
   $.fn.modalize = function(options){
-
+    
     var Modalize = function(element, options){
 
       var $element        = $(element),
@@ -56,59 +56,28 @@
 
       this.setClosable = function(closable){
         if(closable){
-
-          // check inputs for non-empty values (user-edited)
-          function checkForInput() {            
-            edited = 0; // flag, did the user enter data?
-            $('#modal input[type=text], #modal input[type=password], #modal input[type=email], #modal textarea').each(function(){
-              var thevalue = $(this).val().trim();
-              if (thevalue != '') {
-                edited = 1;
-              }            
-            });
-
-            if (edited != 0) {
-              var conf = confirm("You've entered some text.\nAre you sure you want to cancel?");
-              if (conf == true) { 
-                obj.hideModal();                
-                if ($('#onboarding-user-form').length > 0){
-                  location.reload(true);  
-                }
-              }
-            } else {
-              obj.hideModal();              
-              if ($('#onboarding-user-form').length > 0){
-                location.reload(true);  
-              }
-            }
-          }
-
-          // close modal if overlay is clicked. Unbind + bind here prevents this event from firing twice per click
-          $modalOverlay.unbind('click').bind('click', function(e){            
+          $modalOverlay.click(function(e){
             if($(e.target).is($modalOverlay)){
-              checkForInput();
-            }            
-          });
-
-          // close modal on ESCAPE key. off + on here prevents this event from firing twice per ESC
-          $('body').off('keyup').on('keyup', function(e) {            
-            if (e.keyCode == 27) {                            
-              checkForInput();
+              e.preventDefault();
+              obj.hideModal();
             }
           });
 
-          // explicit close button          
-          $('.close-modal').unbind('click.close-modal-button').bind('click.close-modal-button', function(e) {                        
-            checkForInput();
+          $('body').on('keyup', function(e) {
+            if (e.keyCode == 27) { obj.hideModal() }
           });
 
+          $modal.on('click', '.close-modal', function(e){
+            e.preventDefault();
+            obj.hideModal();
+          });
 
+          $modal.addClass('not-closable');
         } else {
           $modal.off('click', '.close-modal');
           $('body').off('keyup');
           $modalOverlay.unbind('click');
           $modal.removeClass('closable');
-          $modal.addClass('not-closable');
         }
 
         return obj;
@@ -135,20 +104,16 @@
       var init = function(){
         $element.on('click', '.modal-link', function(e){
           e.preventDefault();
+          
           var requestOptions = {
             modal_type: $(this).data('modal'),
             item: $(this).data('item'),
             resource_type: $(this).data('resource-type'),
             modal_type: $(this).data('modal'),
             title: $(this).data('title'),
-            text: $(this).data('text'),
-            source: $(this).data('source'),
-            item_id: $(this).data('item-id'),
-            item_type: $(this).data('item-type'),
-            ga_action: $(this).data('ga-action'),
-            ga_label: $(this).data('ga-label'),
-            link_to: $(this).data('link-to')
+            text: $(this).data('text')
           };
+
           obj.showModal(requestOptions);
         });
 
