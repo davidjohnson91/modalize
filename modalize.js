@@ -47,7 +47,7 @@
           data: requestOptions,
           success: function(layout){
             $modalContent.html(layout);
-            FB.XFBML.parse(document.getElementById('modal'));
+            // FB.XFBML.parse(document.getElementById('modal'));
           }
         });
 
@@ -72,11 +72,13 @@
             obj.hideModal();
           });
 
-          $modal.addClass('not-closable');
+          $modal.addClass('closable');
+          $modal.removeClass('not-closable');
         } else {
           $modal.off('click', '.close-modal');
           $('body').off('keyup');
           $modalOverlay.unbind('click');
+          $modal.addClass('not-closable');
           $modal.removeClass('closable');
         }
 
@@ -123,7 +125,7 @@
 
     var createModalOverlay = function(){
       if($('#modal').length < 1){
-        return $('<div id="modal-overlay"><div id="modal" class="large-5-fixed medium-7-fixed small-12"><a class="icon cancel-circle notext end-of-line close-modal close-modal-button">Close</a><div class="content"></div></div></div>').appendTo('body');
+        return $('<div id="modal-overlay"><div id="modal" class="large-5-fixed medium-7-fixed small-12"><span class="close-modal">Close</span><div class="content"></div></div></div>').appendTo('body');
       }
     };
 
