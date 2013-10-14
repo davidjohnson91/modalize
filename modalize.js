@@ -47,7 +47,6 @@
           data: requestOptions,
           success: function(layout){
             $modalContent.html(layout);
-            // FB.XFBML.parse(document.getElementById('modal'));
           }
         });
 
@@ -125,7 +124,7 @@
 
     var createModalOverlay = function(){
       if($('#modal').length < 1){
-        return $('<div id="modal-overlay"><div id="modal" class="large-5-fixed medium-7-fixed small-12"><span class="close-modal">Close</span><div class="content"></div></div></div>').appendTo('body');
+        return $('<div id="modal-overlay"><div id="modal" class="large-5-fixed medium-7-fixed small-12"><span class="close-modal">x</span><div class="content"></div></div></div>').appendTo('body');
       }
     };
 
