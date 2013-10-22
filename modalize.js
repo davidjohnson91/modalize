@@ -40,7 +40,6 @@
         obj.setLoading();
 
         var params = {}
-
         ajaxRequest = $.ajax({
           type: 'GET',
           url: '/modals/' + requestOptions['modal_type'],
@@ -105,14 +104,14 @@
       var init = function(){
         $element.on('click', '.modal-link', function(e){
           e.preventDefault();
-          
+
           var requestOptions = {
             modal_type: $(this).data('modal'),
             item: $(this).data('item'),
             resource_type: $(this).data('resource-type'),
-            modal_type: $(this).data('modal'),
             title: $(this).data('title'),
-            text: $(this).data('text')
+            text: $(this).data('text'),
+            gaq_event_data: $(this).data('gaqEventData')
           };
 
           obj.showModal(requestOptions);
